@@ -281,6 +281,13 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     PaddedElevatedButton(
+                      buttonText: 'Schedule notification with depriciated api '
+                          'payload',
+                      onPressed: () async {
+                        await _scheduleWithDepriciatedApi();
+                      },
+                    ),
+                    PaddedElevatedButton(
                       buttonText:
                           'Show plain notification that has no body with '
                           'payload',
@@ -1260,6 +1267,24 @@ class _HomePageState extends State<HomePage> {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+//added by me to test bug
+  Future<void> _scheduleWithDepriciatedApi() async {
+    await flutterLocalNotificationsPlugin
+        .showWeeklyAtDayAndTime(
+            0,
+            'daily scheduled notification title',
+            'daily scheduled notification body',
+            Day.thursday,
+            Time(0, 5, 0),
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                  'daily notification channel id',
+                  'daily notification channel name',
+                  'daily notification description'),
+            ))
+        .then((value) => print("success"));
   }
 
   Future<void> _scheduleWeeklyTenAMNotification() async {
